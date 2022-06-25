@@ -1,22 +1,27 @@
 class Solution {
 public:
-    //need to think revese by deleting from array and not by adding!
-       bool isPossible(vector<int>& A) {
-        long total = 0;
-        int n = A.size(), a;
-        priority_queue<int> pq(A.begin(), A.end());
-        for (int a : A)
-            total += a;
-        while (true) {
-            a = pq.top(); pq.pop();
-            total -= a;
-            if (a == 1 || total == 1)
-                return true;
-            if (a < total || total == 0 || a % total == 0)
-                return false;
-            a %= total;
-            total += a;
-            pq.push(a);
+    //quiet difficult question!!!...try to think reverse ..i.r from target array to 1s array!
+   // great explanation!!https://leetcode.com/problems/construct-target-array-with-multiple-sums/discuss/2189445/Visual-Explanation-or-JAVA-Max-Heap
+    //1 explanation can solve all doubt!
+    bool isPossible(vector<int>& target) {
+        long long sum=0;
+        for(auto it:target){
+            sum+=it;
         }
+        priority_queue<int> pq(target.begin(),target.end());
+        while(pq.top()!=1){//this traverses the whole pq!
+          int temp=pq.top();
+            pq.pop();
+           sum-=temp; 
+            if(sum<1 || temp<=sum )return false;
+            int ans=temp%sum;
+            sum+=ans;
+            
+            pq.push(ans?ans:sum);
+            
+        }
+        return true;
     }
 };
+
+    
